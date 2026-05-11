@@ -1,0 +1,65 @@
+import { useCart } from "@/contexts/CartContext";
+import { ShoppingBag } from "lucide-react";
+import { useLocation } from "wouter";
+
+export default function Navbar() {
+  const { totalItems, openCart } = useCart();
+  const [, navigate] = useLocation();
+
+  return (
+    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-stone-100 shadow-sm">
+      <div className="container flex items-center justify-between h-16">
+        {/* Logo */}
+        <button
+          onClick={() => navigate("/")}
+          className="flex items-center gap-2 group"
+          aria-label="Zia Africa Home"
+        >
+          <div className="w-9 h-9 bg-primary rounded-sm flex items-center justify-center">
+            <span className="text-white font-display font-bold text-lg leading-none">Z</span>
+          </div>
+          <span className="font-display text-xl font-semibold text-stone-800 tracking-wide">
+            ZIA
+          </span>
+        </button>
+
+        {/* Nav links */}
+        <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-stone-600">
+          <button onClick={() => navigate("/")} className="hover:text-primary transition-colors">
+            All Products
+          </button>
+          <a
+            href="https://instagram.com/ziaafrica"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-primary transition-colors"
+          >
+            Instagram
+          </a>
+          <a
+            href="https://facebook.com/ziaafrica"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-primary transition-colors"
+          >
+            Facebook
+          </a>
+        </nav>
+
+        {/* Cart button */}
+        <button
+          onClick={openCart}
+          className="relative p-2 rounded-full hover:bg-stone-100 transition-colors text-stone-700 hover:text-stone-900"
+          aria-label={`Shopping cart, ${totalItems} items`}
+        >
+          <ShoppingBag className="w-6 h-6" />
+          {totalItems > 0 && (
+            <span className="absolute -top-0.5 -right-0.5 bg-primary text-primary-foreground text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center leading-none">
+              {totalItems > 99 ? "99+" : totalItems}
+            </span>
+          )}
+        </button>
+      </div>
+    </header>
+  );
+}
